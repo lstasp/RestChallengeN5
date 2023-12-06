@@ -45,7 +45,7 @@ namespace RestChallengeN5.Controllers
                                      d => d.Query('*' + id + '*')
                                  )).Size(5000));
 
-            _logger.LogInformation("PermissionsController Get - ", DateTime.UtcNow);
+            _logger.LogInformation("PermissionsController GetPermissions/id=" + id + " - ", DateTime.UtcNow);
             return Ok(result.Documents.ToList());
         }
 

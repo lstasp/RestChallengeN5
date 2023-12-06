@@ -1,6 +1,8 @@
+using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
 using RestChallengeN5.Extension;
 using RestChallengeN5.Models;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DbChallengeN5Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
 
-builder.Services.AddElasticsearch(builder.Configuration);
+builder.Services.AddElasticsearch(builder.Configuration); 
 
 var app = builder.Build();
 
