@@ -24,15 +24,33 @@ namespace RestChallengeN5.Controllers
         //Adding ElasticSearch settings
         private readonly IElasticClient _elasticClient;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public PermissionsController(IElasticClient elasticClient, IWebHostEnvironment hostingEnvironment, DbChallengeN5Context context)
+        private readonly ILogger<PermissionsController> _logger;
+        public PermissionsController
+            (IElasticClient elasticClient, IWebHostEnvironment hostingEnvironment, 
+            DbChallengeN5Context context, ILogger<PermissionsController> logger)
         {
             _elasticClient = elasticClient;
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _logger = logger;
+        }
+
+        //This one uses elasticSearch
+        [HttpGet("GetPermissions/{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var result = await _elasticClient.SearchAsync<Permission>(
+                             s => s.Query(
+                                 q => q.QueryString(
+                                     d => d.Query('*' + id + '*')
+                                 )).Size(5000));
+
+            _logger.LogInformation("PermissionsController Get - ", DateTime.UtcNow);
+            return Ok(result.Documents.ToList());
         }
 
         // GET: api/Permissions
-        [HttpGet("GetPermissions")]
+        [HttpGet("GetPermissionsList")]
         public async Task<ActionResult<IEnumerable<Permission>>> GetPermissions()
         {
           if (_context.Permissions == null)
@@ -94,7 +112,7 @@ namespace RestChallengeN5.Controllers
 
         // POST: api/Permissions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("RequestPermission")]
+        [HttpPost("RequestPermissionSimple")]
         public async Task<ActionResult<Permission>> PostPermission(Permission permission)
         {
           if (_context.Permissions == null)
@@ -105,6 +123,30 @@ namespace RestChallengeN5.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPermission", new { id = permission.Id }, permission);
+        }
+
+        //This one uses elasticSearch
+        [HttpPost("RequestPermission")]
+        public async Task<IActionResult> Post(Permission permission)
+        {
+            // Add product to ELS index
+            //var permission1 = new Permission
+            //{
+            //    Description = "Product 1",
+            //    Id = 1,
+            //    Price = 200,
+            //    Measurement = "2",
+            //    Quantity = 90,
+            //    ShowPrice = true,
+            //    Title = "Nike Shoes",
+            //    Unit = "10"
+            //};
+
+            // Index product dto
+            await _elasticClient.IndexDocumentAsync(permission);
+
+            _logger.LogInformation("PermissionsController Post - ", DateTime.UtcNow);
+            return Ok();
         }
 
         // DELETE: api/Permissions/5

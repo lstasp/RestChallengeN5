@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DbChallengeN5Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
 
-builder.Services.AddElasticSearch(builder.Configuration);
+builder.Services.AddElasticsearch(builder.Configuration);
 
 var app = builder.Build();
 
