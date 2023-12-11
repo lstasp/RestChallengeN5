@@ -2,8 +2,8 @@
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace RestChallengeN5.Consumer
-{ 
+//namespace RestChallengeN5.Consumer
+//{ 
 
 
 class Producer
@@ -56,4 +56,4 @@ class Producer
     }
 }
 
-}
+//}

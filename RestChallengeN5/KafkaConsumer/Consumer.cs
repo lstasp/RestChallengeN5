@@ -3,8 +3,8 @@ using System;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 
-namespace RestChallengeN5.Consumer
-{
+//namespace RestChallengeN5.Consumer
+//{
     class Consumer
     {
 
@@ -53,4 +53,4 @@ namespace RestChallengeN5.Consumer
             }
         }
     }
-}
+//}
