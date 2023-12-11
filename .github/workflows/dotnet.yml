@@ -23,7 +23,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore RestChallengeN5.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore RestChallengeN5.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal RestChallengeN5.sln
 
