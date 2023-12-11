@@ -15,3 +15,7 @@ Visual Studio 2022
 SQL Server
 
 Database Backup Script included in repository in SQLScripts directory
+
+Confluent Nuget Package in Solution.
+
+
