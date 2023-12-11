@@ -21,7 +21,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore RestChallengeN5.sln -o out
+      run: dotnet restore RestChallengeN5.sln
     - name: Build
       run: dotnet build --no-restore
     - name: Test
